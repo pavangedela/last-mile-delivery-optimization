@@ -30,7 +30,18 @@ ETL → Optimization Engine → PostgreSQL → Dashboard
 - Improved vehicle utilization
 
 ## Screenshots
-(Add dashboard screenshots)
+
+### Dashboard
+![Dashboard](images/dashboard.png)
+
+### Route Optimization
+![Routes](images/routes.png)
+
+### Analytics
+![Analytics](images/analytics.png)
+
+### Delivery Simulator
+![Simulator](images/simulator.png)
 
 ## Run Locally
 pip install -r requirements.txt

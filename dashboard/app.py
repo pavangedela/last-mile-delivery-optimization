@@ -21,13 +21,15 @@ st.title("🚚 Last Mile Delivery Optimization Dashboard")
 # DATABASE CONNECTION
 # ==========================
 
+# DATABASE CONNECTION
+
 conn = get_connection()
 
 customers = pd.read_sql("""
 SELECT *
 FROM customers
 ORDER BY customer_id
-LIMIT 50
+LIMIT 500
 """, conn)
 
 routes = pd.read_sql("""
@@ -35,17 +37,6 @@ SELECT *
 FROM routes
 ORDER BY route_id
 """, conn)
-
-status_filter = st.selectbox(
-    "Route Status",
-    ["All", "Planned", "Started", "Completed"]
-)
-
-if status_filter != "All":
-    routes = routes[
-        routes["route_status"] == status_filter
-    ]
-
 drivers = pd.read_sql("""
 SELECT *
 FROM drivers
@@ -57,6 +48,17 @@ FROM depot
 LIMIT 1
 """, conn)
 
+st.write(customers.head())
+
+status_filter = st.selectbox(
+    "Route Status",
+    ["All", "Planned", "Started", "Completed"]
+)
+
+if status_filter != "All":
+    routes = routes[
+        routes["route_status"] == status_filter
+    ]
 # ==========================
 # KPI CALCULATIONS
 # ==========================
@@ -197,6 +199,7 @@ m = folium.Map(
     location=[center_lat, center_lon],
     zoom_start=12
 )
+
 warehouse_lat = depot.iloc[0]["latitude"]
 warehouse_lon = depot.iloc[0]["longitude"]
 
@@ -273,6 +276,7 @@ st_folium(
     width="stretch",
     height=850
 )
+
 st.divider()
 
 st.subheader("Distance per Vehicle")
@@ -297,6 +301,7 @@ fig2 = px.pie(
 )
 
 st.plotly_chart(fig2)
+
 st.subheader("Driver Information")
 
 driver_summary = pd.merge(
@@ -318,6 +323,7 @@ st.dataframe(
     ],
     width="stretch"
 )
+
 st.subheader("Route Status Distribution")
 
 status_counts = routes["route_status"].value_counts()
@@ -329,15 +335,19 @@ fig_status = px.pie(
 )
 
 st.plotly_chart(fig_status)
+
 st.subheader("Update Route Status")
+
 selected_route = st.selectbox(
     "Select Route",
     routes["route_id"].tolist()
 )
+
 new_status = st.selectbox(
     "New Status",
     ["Planned", "Started", "Completed"]
 )
+
 if st.button("Update Status"):
 
     conn = get_connection()
@@ -364,6 +374,7 @@ if st.button("Update Status"):
     st.success(
         f"Route {selected_route} updated to {new_status}"
     )
+
 st.divider()
 
 st.subheader("🚚 Delivery Progress Simulator")
@@ -394,4 +405,4 @@ if st.button("Start Delivery Simulation"):
 
     st.success(
         f"Vehicle {selected_vehicle} Delivery Completed!"
-    )    
+    )

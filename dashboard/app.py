@@ -208,6 +208,12 @@ m = folium.Map(
     location=[center_lat, center_lon],
     zoom_start=12
 )
+bounds = [
+    [customers["latitude"].min(), customers["longitude"].min()],
+    [customers["latitude"].max(), customers["longitude"].max()]
+]
+
+m.fit_bounds(bounds)
 
 warehouse_lat = depot.iloc[0]["latitude"]
 warehouse_lon = depot.iloc[0]["longitude"]

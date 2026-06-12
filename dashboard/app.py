@@ -24,6 +24,15 @@ st.title("🚚 Last Mile Delivery Optimization Dashboard")
 # DATABASE CONNECTION
 
 conn = get_connection()
+st.write("Connected to database")
+
+st.write(
+    pd.read_sql("""
+    SELECT table_name
+    FROM information_schema.tables
+    WHERE table_schema = 'public'
+    """, conn)
+)
 
 customers = pd.read_sql("""
 SELECT *

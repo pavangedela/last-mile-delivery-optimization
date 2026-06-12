@@ -6,6 +6,7 @@ import plotly.express as px
 import streamlit as st
 import pandas as pd
 import folium
+from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
 
 from database.db_connection import get_connection
@@ -228,6 +229,7 @@ folium.Marker(
 ).add_to(m)
 
 # Customer markers
+marker_cluster = MarkerCluster().add_to(m)
 for _, row in customers.iterrows():
     folium.Marker(
         location=[
@@ -238,7 +240,7 @@ for _, row in customers.iterrows():
 Customer: {row['customer_id']}<br>
 Demand: {row['demand']}
 """
-    ).add_to(m)
+    ).add_to(marker_cluster)
 
 # --------------------------------
 # DRAW ROUTES

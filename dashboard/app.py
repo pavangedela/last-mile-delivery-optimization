@@ -209,7 +209,8 @@ warehouse_lat = depot.iloc[0]["latitude"]
 warehouse_lon = depot.iloc[0]["longitude"]
 m = folium.Map(
     location=[warehouse_lat, warehouse_lon],
-    zoom_start=11
+    zoom_start=11,
+    tiles="OpenStreetMap"
 )
 
 
@@ -289,7 +290,8 @@ for _, route in routes.iterrows():
 st_folium(
     m,
     width="stretch",
-    height=850
+    height=600,
+    returned_objects=[]
 )
 
 st.divider()
